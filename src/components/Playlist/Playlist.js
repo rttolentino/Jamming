@@ -3,8 +3,10 @@ import './Playlist.css';
 
 import Tracklist from '../Tracklist/Tracklist.js';
 
-export class Playlist extends React.Component {
-  render() {
+export class Playlist extends React.Component
+{
+  render()
+  {
     return (
       <div className="Playlist">
         <input defaultValue={'New Playlist'}/>

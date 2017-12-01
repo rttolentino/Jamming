@@ -1,30 +1,38 @@
 import React from 'react';
 import './Track.css';
 
-function renderAction(props) {
-  if(props.isRemoval)
-    return `-`;
-  else
-    return `+`;
-}
-
-class Track extends React.Component {
-  constructor(props) {
+class Track extends React.Component
+{
+  constructor(props)
+  {
     super(props);
 
-    this.state = { isRemoval: true};
+    this.renderAction = this.renderAction.bind(this);
+    this.addTrack = this.addTrack.bind(this);
   }
 
-  render() {
+  renderAction()
+  {
+    if(this.props.isRemoval)
+      return (<a className="Track-action">-</a>);
+    else
+      return (<a className="Track-action" onClick={this.addTrack}>+</a>);
+  }
+
+  addTrack(e)
+  {
+    this.props.onAdd(this.props.track);
+  }
+
+  render()
+  {
     return (
       <div className="Track">
         <div className="Track-information">
           <h3>{this.props.track.name}</h3>
           <p>{this.props.track.artist} | {this.props.track.album}</p>
         </div>
-        <a className="Track-action">
-          <renderAction isRemoval={this.state.isRemoval} />
-        </a>
+          {this.renderAction()}
       </div>
     );
   }
