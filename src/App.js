@@ -13,29 +13,44 @@ class App extends React.Component
 
     this.state = {
       searchResults: [
-/*
+
         {
           name: `Song 2`,
           artist: `Blur`,
           album: `Self-titled`
         }
-*/
+
       ],
       playlistName: ``,
       playlistTracks: []
     };
 
     this.addTrack = this.addTrack.bind(this);
+    this.removeTrack = this.removeTrack.bind(this);
   }
 
   addTrack(track)
   {
-    if(!this.state.playlistTracks.find(t => t.name == track.name))
+    if(!this.state.playlistTracks.find(t => t.name === track.name))
     {
       let tempList = this.state.playlistTracks.slice();
       tempList.push(track);
-      this.setState({playlistTracks: tempList});
+      this.setState({ playlistTracks: tempList });
     }
+  }
+
+  removeTrack(track)
+  {
+    let index = this.state.playlistTracks.indexOf(track);
+
+    if(index >= 0)
+    {
+      let tempList = this.state.playlistTracks.slice();
+      tempList.splice(index,1);
+      this.setState({ playlistTracks: tempList });
+    }
+    else
+      console.log(`Error finding track ${track.name} in playlist.`);
   }
 
   render()
@@ -46,8 +61,8 @@ class App extends React.Component
         <div className="App">
           <SearchBar />
           <div className="App-playlist">
-            <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack}/>
-            <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks}/>
+            <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} isRemoval={false} />
+            <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack} isRemoval={true} />
           </div>
         </div>
       </div>
