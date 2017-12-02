@@ -27,7 +27,7 @@ export class Playlist extends React.Component
           onRemove={this.props.onRemove}
           isRemoval={this.props.isRemoval}
         />
-        <a className="Playlist-save">SAVE TO SPOTIFY</a>
+        <a className="Playlist-save" onClick={this.props.onSave} >SAVE TO SPOTIFY</a>
       </div>
     );
   }
