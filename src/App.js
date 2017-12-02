@@ -25,8 +25,9 @@ class App extends React.Component
       playlistTracks: []
     };
 
-    this.addTrack = this.addTrack.bind(this);
-    this.removeTrack = this.removeTrack.bind(this);
+    this.addTrack           = this.addTrack.bind(this);
+    this.removeTrack        = this.removeTrack.bind(this);
+    this.updatePlaylistName = this.updatePlaylistName.bind(this);
   }
 
   addTrack(track)
@@ -53,6 +54,11 @@ class App extends React.Component
       console.log(`Error finding track ${track.name} in playlist.`);
   }
 
+  updatePlaylistName(name)
+  {
+    this.setState({ playlistName: name });
+  }
+
   render()
   {
     return (
@@ -61,8 +67,18 @@ class App extends React.Component
         <div className="App">
           <SearchBar />
           <div className="App-playlist">
-            <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} isRemoval={false} />
-            <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack} isRemoval={true} />
+            <SearchResults
+              searchResults={this.state.searchResults}
+              onAdd={this.addTrack}
+              isRemoval={false}
+            />
+            <Playlist
+              playlistName={this.state.playlistName}
+              onNameChange={this.updatePlaylistName}
+              playlistTracks={this.state.playlistTracks}
+              onRemove={this.removeTrack}
+              isRemoval={true}
+            />
           </div>
         </div>
       </div>
