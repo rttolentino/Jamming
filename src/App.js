@@ -4,6 +4,7 @@ import './App.css';
 import SearchBar from './components/SearchBar/SearchBar.js';
 import SearchResults from './components/SearchResults/SearchResults.js';
 import Playlist from './components/Playlist/Playlist.js';
+import Spotify from './util/Spotify.js';
 
 class App extends React.Component
 {
@@ -12,16 +13,7 @@ class App extends React.Component
     super(props);
 
     this.state = {
-      searchResults: [
-///*
-        {
-          name: `Song 2`,
-          artist: `Blur`,
-          album: `Self-titled`,
-          uri: `testURI`
-        }
-//*/
-      ],
+      searchResults: [],
       playlistName: ``,
       playlistTracks: []
     };
@@ -31,6 +23,8 @@ class App extends React.Component
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
     this.savePlaylist       = this.savePlaylist.bind(this);
     this.search             = this.search.bind(this);
+
+    Spotify.getAccessToken();
   }
 
   addTrack(track)
@@ -69,7 +63,7 @@ class App extends React.Component
 
   search(term)
   {
-    console.log(term);
+    Spotify.search(term).then(results => this.setState({ searchResults: results }));
   }
 
   render()
