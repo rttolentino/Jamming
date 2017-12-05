@@ -37,8 +37,6 @@ const Spotify = {
           {
             if(jsonResponse.tracks)
             {
-              console.log(jsonResponse);
-              console.log(jsonResponse.tracks.items[0]);
               return jsonResponse.tracks.items.map(track =>
                 {
                   return {
@@ -53,6 +51,50 @@ const Spotify = {
             }
             else
               return [];
+          }
+        );
+  },
+
+  savePlaylist(playlistName, trackURIs)
+  {
+    if(!(playlistName && trackURIs))
+      return;
+
+    let header = { Authorization: `Bearer ${accessToken}` };
+
+    fetch(`https://api.spotify.com/v1/me`, { headers: header })
+      .then(response => response.json())
+        .then(jsonResponse =>
+          {
+            if(!jsonResponse.id)
+              return;
+
+            let userID = jsonResponse.id;
+
+            fetch(`https://api.spotify.com/v1/users/${userID}/playlists`,
+              {
+                headers: header,
+                method: `POST`,
+                body: JSON.stringify({ name: playlistName })
+              }
+            )
+              .then(response => response.json())
+                .then(jsonResponse =>
+                  {
+                    if(!jsonResponse.id)
+                      return;
+
+                    let playlistID = jsonResponse.id
+
+                    fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks`,
+                      {
+                        headers: header,
+                        method: `POST`,
+                        body: JSON.stringify({ uris: trackURIs })
+                      }
+                    );
+                  }
+                );
           }
         );
   }
