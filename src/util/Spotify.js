@@ -1,7 +1,7 @@
-import Config from '../.config.js';
+const config = require('../.config.json');
 
-const clientID = Config.clientID;
-const redirectURI = Config.redirectURI;
+const clientID = config.clientID;
+const redirectURI = config.redirectURI;
 
 let accessToken, expiresIn;
 
