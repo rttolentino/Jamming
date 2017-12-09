@@ -39,16 +39,9 @@ class App extends React.Component
 
   removeTrack(track)
   {
-    let index = this.state.playlistTracks.indexOf(track);
-
-    if(index >= 0)
-    {
-      let tempList = this.state.playlistTracks.slice();
-      tempList.splice(index,1);
-      this.setState({ playlistTracks: tempList });
-    }
-    else
-      console.log(`Error finding track ${track.name} in playlist.`);
+    let tracks = this.state.playlistTracks
+    tracks = tracks.filter(t => t.id != track.id);
+    this.setState({ playlistTracks: tracks });
   }
 
   updatePlaylistName(name)
